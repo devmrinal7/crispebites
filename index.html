@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crispe Bites - India's Crunchiest Khakhra Bites</title>
+    <title>Krispe Bites - India's Crunchiest Khakhra Bites</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,6 +17,36 @@
         body {
             background-color: #f5f5f5;
             color: #333;
+          /*  cursor: none; Hide default cursor */
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            background-color: red;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cursor.hovered {
+            background-color: green;
+            transform: scale(2);
+        }
+
+        .cursor.hovered::after {
+            /*content: 'Click Me'*/
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         /* Header */
@@ -32,8 +62,10 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        .logo img {
-            height: 60px;
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #fade65;
         }
 
         .nav-links a {
@@ -98,7 +130,7 @@
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(238, 255, 47, 0.5), rgba(91, 26, 254, 0.5)), url('https://via.placeholder.com/1920x600?text=Hero+Background');
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://github.com/user-attachments/assets/ba3884d7-12e7-4e70-b878-06d621d002a9');
             background-size: cover;
             background-position: center;
             height: 70vh;
@@ -269,7 +301,7 @@
         /* Ingredients Section */
         .ingredients-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -280,12 +312,60 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            position: relative;
+            overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .ingredient-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
         }
 
         .ingredient-tile:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .ingredient-tile:hover::before {
+            opacity: 0.2;
+        }
+
+        .ingredient-tile[data-ingredient="whole-wheat"]::before {
+            background-image: url('https://github.com/user-attachments/assets/509568ef-d6f9-4c3f-bb07-d4262e0de555');
+        }
+
+        .ingredient-tile[data-ingredient="edible-oils"]::before {
+            background-image: url('https://github.com/user-attachments/assets/f1ca9e6c-fa71-4e6a-bd00-bb816dae50f0');
+        }
+
+        .ingredient-tile[data-ingredient="spices"]::before {
+            background-image: url('https://github.com/user-attachments/assets/f2f290f1-187d-4a24-9895-bc71083edf3d');
+        }
+
+        .ingredient-tile[data-ingredient="salt"]::before {
+            background-image: url('https://github.com/user-attachments/assets/9ada5989-8db1-46d3-9402-a400742c2a15');
+        }
+
+        .ingredient-tile[data-ingredient="natural-flavorings"]::before {
+            background-image: url('https://github.com/user-attachments/assets/0e2da710-33bf-4e45-9391-d9982640b33e');
+        }
+        .ingredient-tile[data-ingredient="besan"]::before {
+            background-image: url('https://github.com/user-attachments/assets/9a693675-44ba-4b75-8c3d-fe953f89c115');
+        }
+
+        .ingredient-tile h3, .ingredient-tile p {
+            position: relative;
+            z-index: 1;
         }
 
         .ingredient-tile h3 {
@@ -314,16 +394,37 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-decoration: none;
             z-index: 1000;
-            transition: transform 0.3s ease;
-        }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
+            transition: all 0.3s ease;
+            overflow: hidden;
         }
 
         .whatsapp-btn img {
             width: 30px;
             height: 30px;
+            transition: opacity 0.3s ease;
+        }
+
+        .whatsapp-btn::after {
+            content: 'Order Now';
+            position: absolute;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .whatsapp-btn:hover {
+            width: 120px;
+            border-radius: 30px;
+        }
+
+        .whatsapp-btn:hover img {
+            opacity: 0;
+        }
+
+        .whatsapp-btn:hover::after {
+            opacity: 1;
         }
 
         /* Footer */
@@ -381,14 +482,19 @@
             .hero p {
                 font-size: 1rem;
             }
+
+            .ingredients-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor"></div>
+
     <header>
-        <div class="logo">
-            <img src="https://github.com/user-attachments/assets/58cb62d9-deb4-4392-a353-de99c3ef2d88" alt="Crispe Bites Logo">
-        </div>
+        <div class="logo">Krispè Bites</div>
         <div class="hamburger" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -410,7 +516,7 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <h1>India's Crunchiest Khakhra Bites</h1>
-        <p>Discover the perfect snack with Crispe Bites - Crunchy, Tasty, and Healthy!</p>
+        <p>Discover the perfect snack with Krispe Bites - Crunchy, Tasty, and Healthy!</p>
         <a href="#flavors" class="cta-btn">Explore Flavors</a>
     </section>
 
@@ -472,7 +578,7 @@
     <!-- About Section -->
     <section class="about-section" id="about">
         <h2>About Us</h2>
-        <p>We’re not about diet cardboard or masala explosions. Krispé Bites is that rare middle child — crunchy, tasty, and raised right. Our first creation, Coin Khakhra, brings bite-sized flavor packed fresh from Gujarat’s Mahila Gruh Udhyogs, where every snack is crafted with love, hygiene, and tradition. Not bland like “healthy” chips, not junky like the rest, just the Right Crunch with No Junk. Swad bhi, sehat bhi — bilkul ghar jaisa.</p>
+        <p>We’re not about diet cardboard or masala explosions. Krispe Bites is that rare middle child — crunchy, tasty, and raised right. Our first creation, Coin Khakhra, brings bite-sized flavor packed fresh from Gujarat’s Mahila Gruh Udhyogs, where every snack is crafted with love, hygiene, and tradition. Not bland like “healthy” chips, not junky like the rest, just the Right Crunch with No Junk. Swad bhi, sehat bhi — bilkul ghar jaisa.</p>
     </section>
 
     <!-- Flavors Page -->
@@ -526,25 +632,29 @@
     <section id="ingredients" class="ingredients-page">
         <h2>Our Ingredients</h2>
         <div class="ingredients-grid">
-            <div class="ingredient-tile">
+            <div class="ingredient-tile" data-ingredient="whole-wheat">
                 <h3>Whole Wheat Flour</h3>
                 <p>The base for our crispy khakhra, providing a wholesome foundation.</p>
             </div>
-            <div class="ingredient-tile">
+            <div class="ingredient-tile" data-ingredient="edible-oils">
                 <h3>Edible Oils</h3>
                 <p>Used sparingly to achieve the perfect crunch without excess grease.</p>
             </div>
-            <div class="ingredient-tile">
+            <div class="ingredient-tile" data-ingredient="spices">
                 <h3>Spices & Seasonings</h3>
                 <p>Carefully blended to create unique flavors for each variety.</p>
             </div>
-            <div class="ingredient-tile">
+            <div class="ingredient-tile" data-ingredient="salt">
                 <h3>Salt</h3>
                 <p>Just the right amount to enhance the natural taste.</p>
             </div>
-            <div class="ingredient-tile">
+            <div class="ingredient-tile" data-ingredient="natural-flavorings">
                 <h3>Natural Flavorings</h3>
                 <p>Cheese powder, tomato extract, and more, tailored to each flavor.</p>
+            </div>
+            <div class="ingredient-tile" data-ingredient="besan">
+                <h3>Besan</h3>
+                <p>Made from ground chickpeas, adding a nutty flavor and extra protein.</p>
             </div>
         </div>
     </section>
@@ -556,9 +666,9 @@
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Crispe Bites. All rights reserved.</p>
+        <p>© 2025 Krispe Bites. All rights reserved.</p>
         <p>
-            <a href="mailto:info@crispebites.com">info@crispebites.com</a> |
+            <a href="mailto:krispebites@gmail.com">krispebites@gmail.com</a> |
             <a href="https://www.instagram.com/krispebites" target="_blank">Instagram</a> |
             <a href="#snacksmarter">#SnackSmarter</a>
         </p>
@@ -577,6 +687,23 @@
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
+            });
+        });
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        const interactiveElements = document.querySelectorAll('a, button, .cta-btn, .whatsapp-btn');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hovered');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hovered');
             });
         });
     </script>
